@@ -1,16 +1,26 @@
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+// LoginForm.tsx
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { loginWithGoogle } from "@/services/cred-switch";
 
 export function LoginForm() {
+  const handleGoogleLogin = async () => {
+    try {
+      const user = await loginWithGoogle();
+      console.log("Google login successful:", user);
+    } catch (err) {
+      alert("Google login failed. See console for details.");
+      console.error(err);
+    }
+  };
   return (
     <div>
       <Card>
@@ -37,7 +47,8 @@ export function LoginForm() {
                   <Label htmlFor="password">Password</Label>
                   <a
                     href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline">
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
                     Forgot your password?
                   </a>
                 </div>
@@ -46,7 +57,12 @@ export function LoginForm() {
               <Button type="submit" className="w-full">
                 Login
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                type="button"
+                onClick={handleGoogleLogin}
+              >
                 Login with Google
               </Button>
             </div>
@@ -60,5 +76,5 @@ export function LoginForm() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
